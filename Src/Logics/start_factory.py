@@ -59,16 +59,16 @@ class start_factory:
             _type_: _description_
         """
         items = []
-        items.append( unit_model.create_gram())
-        items.append( unit_model.create_killogram())
-        items.append( unit_model.create_liter())
-        items.append( unit_model.create_milliliter())
-        items.append(unit_model.create_ting())
+        items.append( unit_model.create_gram() )
+        items.append( unit_model.create_killogram() )
+        items.append( unit_model.create_liter() )
+        items.append( unit_model.create_milliliter() )
+        items.append( unit_model.create_ting() )
         
         return items
     
     @staticmethod
-    def create_nomenclature():
+    def create_nomenclatures():
         """
           Сформировать список номенклатуры
         """
@@ -146,7 +146,7 @@ class start_factory:
         result = []
         
         if _data is None:
-            data = start_factory.create_nomenclature()
+            data = start_factory.create_nomenclatures()
         else:
             data = _data
             
@@ -193,6 +193,9 @@ class start_factory:
         items = [ {"Яйца": 3}, {"Сахарная пудра":180}, {"Ванилиин" : 5}, {"Корица": 5} ,{"Какао": 20} ]
         result.append( receipe_model.create_receipt("Безе", "", items, data))
         return result
+
+
+
         
     
     # Основной метод
@@ -203,10 +206,8 @@ class start_factory:
             _type_: _description_
         """
         if self.__oprions.is_first_start == True:
-            self.__oprions.is_first_start = False
-            
             # 1. Формируем и зпоминаем номеклатуру
-            items = start_factory.create_nomenclature()
+            items = start_factory.create_nomenclatures()
             self.__save( storage.nomenclature_key(), items )
             
             # 2. Формируем и запоминаем рецепты

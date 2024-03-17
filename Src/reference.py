@@ -1,7 +1,7 @@
 import uuid
 from abc import ABC
 from Src.errors import error_proxy
-from Src.exceptions import exception_proxy
+from Src.exceptions import exception_proxy, argument_exception
 
 #
 # Абстрактный класс для наследования
@@ -66,6 +66,30 @@ class reference(ABC):
             result[ position.name ] = position
            
         return result   
+   
+    @staticmethod
+    def create_fields(source) -> list:
+        """
+            Сформировать список полей от объекта типа reference
+        Args:
+            source (_type_): _description_
+
+        Returns:
+            list: _description_
+        """
+        
+        if source is None:
+            raise argument_exception("Некорректно переданы параметры!")
+        
+        items = list(filter(lambda x: not x.startswith("_") and not x.startswith("create_") , dir(source))) 
+        result = []
+        
+        for item in items:
+            attribute = getattr(source.__class__, item)
+            if isinstance(attribute, property):
+                result.append(item)
+                    
+        return result
     
     def __str__(self) -> str:
         """
@@ -74,12 +98,6 @@ class reference(ABC):
             str: _description_
         """
         return self.id
-
-    @staticmethod
-    def create_fields(source) -> list:
-        result = list(filter(lambda x: not x.startswith("_") and not x.startswith("create_"), dir(source)))
-        return result
-
     
     
                 
